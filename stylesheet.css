@@ -1,0 +1,28 @@
+.jumbotron {
+  background-color:#fa78da !important;
+  background-size: cover;
+  -webkit-box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+  -moz-box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+  box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+  min-height: 700px;
+}
+.jumbotron .btn-group{
+  text-align: center;
+}
+.jumbotron .btn-group button {
+  text-align: center;
+}
+.jumbotron button {
+  text-align: center;
+}
+#canvas {
+    
+  border:5px  blue;
+}
+.glyphicon {
+  font-size: 20px;
+}
+body {
+  padding: 10px;
+  background-color: #e6f2ff;
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+  .jumbotron {
+  background-color:#CCFFFF !important;
+  background-size: cover;
+  -webkit-box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+  -moz-box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+  box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+  min-height: 700px;
+}
+.jumbotron .btn-group{
+  text-align: center;
+}
+.jumbotron .btn-group button {
+  text-align: center;
+}
+.jumbotron button {
+  text-align: center;
+}
+.well{
+   border-style: none;
+   background-color:#93FFE8 !important;
+  -webkit-box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+  -moz-box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+  box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+  
+}
+#canvas {
+    
+  border:5px  blue;
+}
+.glyphicon {
+  font-size: 20px;
+}
+body {
+  padding: 10px;
+  background-color: #e6f2ff;
+}
+</style>
+</head>
+<body >
+<div class="container col-12">
+    <div class="row">
+        <div class="col-md-6">
+          <div class="jumbotron">
+            <div class="well">
+              <h2>{{langy1}}:</h2>
+              <h3>{{text1}}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+        <div class="jumbotron">
+        <div class="well">
+            <h2>{{langy2}}:</h2>
+            <h3>{{text2}}</h3>
+        </div>
+            <form method="POST" action="/inter2">
+            <div class="container">
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary active" name="speak2" value="speak2"><span class="glyphicon glyphicon-volume-up"></span></button>
+              </div>
+            </div>
+            </form>
+        </div>
+        </div>
+  </div>
+</div>
+</body>
+</html>

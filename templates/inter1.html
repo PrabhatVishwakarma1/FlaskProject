@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="stylesheet.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
+  var some_x='{{x}}'
+</script>
+<style>
+.jumbotron {
+  background-color:#CCFFFF !important;
+  background-size: cover;
+  -webkit-box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+  -moz-box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+  box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+  min-height: 700px;
+}
+.jumbotron .btn-group{
+  text-align: center;
+}
+.jumbotron .btn-group button {
+  text-align: center;
+}
+.jumbotron button {
+  text-align: center;
+}
+.well{
+  border-style: none;
+  background-color:#93FFE8 !important;
+  -webkit-box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+  -moz-box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+  box-shadow: 10px 10px 26px -7px rgba(0,0,0,1);
+}
+#wrapper{
+  position:relative;
+  width:395px;
+  height:350px;
+}
+#canvas {
+  border:5px  blue;
+}
+.glyphicon {
+  font-size: 20px;
+}
+body {
+  padding: 10px;
+  background-color: #e6f2ff;
+}
+</style>
+</head>
+
+<body onload="init();">
+ 
+<div class="container col-12">
+<form method="POST">
+    <div class="row">
+        <div class="col-md-6">
+          <div class="jumbotron">
+            
+            <div class="well">
+              <div class="form-group">
+                <label for="coloursa">Source Language:</label>
+                <select class="form-control" name= "coloursa" id="coloursa" required >
+                    <option value="" disabled selected hidden  required>Please Choose...</option>
+                    {% for colour in colours1 %}
+                    <option  value= "{{colour}}" >{{colour}}</option>"
+                    {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="coloursb">Destination Language:</label>
+                <select class="form-control" name= "coloursb" id="coloursb" required >
+                    <option value="" disabled selected hidden >Please Choose...</option>
+                    {% for colour in colours2 %}
+                    <option  value= "{{colour}}" >{{colour}}</option>"
+                    {% endfor %}
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block active" name="trans" value="translate" >Translate</button>
+            </div>
+            
+            <div class="well">
+              <canvas  id="myCanvas" width="395" height="350" style="border:3px dashed #46C7C7;"> </canvas>
+            </div>
+            
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="jumbotron">
+            <center><h2 style="text-shadow: 1px 1px;">T-EXTRACTOR</h2></center>
+            
+            <div class="well">
+              <input type="file" multiple="false" accept="image/*" id="inp" >
+            </div>
+
+            <div class="well">
+              <div class="container">
+                  <div class="text-center">
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-primary" onclick="startWebcam();"><span class="glyphicon glyphicon-facetime-video"></span></button>
+                          <button type="button" class="btn btn-primary" onclick="snapshot();"><span class="glyphicon glyphicon-camera"></span></button> 
+                      </div>
+                  </div>
+              </div>
+              <br>
+              <br>
+              <video  width=395 height=350 id="video" controls autoplay></video>
+              <a id="link"></a>
+              <script type='text/javascript'>
+                  document.getElementById('inp').onchange = function(e) {
+                      var img = new Image();
+                      img.onload = draw;
+                      img.onerror = failed;
+                      img.src = URL.createObjectURL(this.files[0]);
+                  };
+                  function draw() {
+                      var canvas = document.getElementById('myCanvas');
+                      var ctx = canvas.getContext('2d');
+                      ctx.drawImage(this, 0,0,395,350);
+                      var link = document.getElementById('link');
+                      link.setAttribute('download', 'MintyPaper.png');
+                      link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+                      link.click();
+                  }
+                  function failed() {
+                      console.error("The provided file couldn't be loaded as an Image media");
+                  }
+              </script>
+            </div>
+          </div>
+        </div>
+    </div>
+ </form>  
+</div>
+</body>
+<script>
+    navigator.getUserMedia = ( navigator.getUserMedia ||
+                             navigator.webkitGetUserMedia ||
+                             navigator.mozGetUserMedia ||
+                             navigator.msGetUserMedia);
+
+    var video;
+    var webcamStream;
+    function startWebcam() {
+        if (navigator.getUserMedia) {
+           navigator.getUserMedia (
+
+              // constraints
+              {
+                 video: true,
+                 audio: false
+              },
+
+              // successCallback
+              function(localMediaStream) {
+                video = document.querySelector('video');
+                 video.src = window.URL.createObjectURL(localMediaStream);
+                 webcamStream = localMediaStream;
+              },
+
+              // errorCallback
+              function(err) {
+                alert('WEBCAM IS ABSENT OR NOT WORKING, UPLOAD FROM LOCAL SYSTEM');
+                console.log("The following error occured: " + err);
+              }
+           );
+        } 
+        else {
+           console.log("getUserMedia not supported");
+        }  
+    }
+    var canvas, ctx;
+
+    function init() {
+        // Get the canvas and obtain a context for
+        // drawing in it
+        canvas = document.getElementById("myCanvas");
+        ctx = canvas.getContext('2d');
+
+        ctx.font = "28px Georgia";
+        ctx.fillStyle = "#46C7C7";
+        ctx.fillText("UPLOAD AN IMAGE", 67, 170);
+       
+        if (some_x=='1'){
+            alert("UPLOADED IMAGE DOESNT CONTAIN TEXT!! UPLOAD ANOTHER IMAGE!!");
+            some_x='0'
+        }
+
+    }
+
+    function snapshot() {
+         // Draws current image from the video element into the canvas
+        ctx.drawImage(video, 0,0, 395, 350);
+        var link = document.getElementById('link');
+        link.setAttribute('download', 'MintyPaper.png');
+        link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+        link.click();
+    }
+</script>
+</html>
